@@ -1,0 +1,3 @@
+src/registerServiceWorker.js
+src/reportWebVitals.ts
+src/**/__tests__/**
