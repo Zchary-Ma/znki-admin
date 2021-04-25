@@ -1,6 +1,4 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
-//import { Test } from './Dashboard.styles';
 
 const Dashboard: FC = (props) => (
   <div className="DashboardWrapper">Dashboard content</div>

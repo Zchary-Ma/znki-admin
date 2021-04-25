@@ -1,11 +1,28 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
-//import { Test } from './NotFound.styles';
+import { Box, Container, Typography } from '@material-ui/core';
 
 const NotFound: FC = (props) => (
-  <div className="NotFoundWrapper">
-    <code>NOT FOUND</code>
-  </div>
+  <>
+    <Box
+      sx={{
+        backgroundColor: 'background.default',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        justifyContent: 'center',
+      }}
+    >
+      <Container maxWidth="md">
+        <Typography align="center" color="textPrimary" variant="h1">
+          404: The page you are looking for isn’t here
+        </Typography>
+        <Typography align="center" color="textPrimary" variant="subtitle2">
+          You either tried some shady route or you came here by mistake.
+          Whichever it is, try using the navigation
+        </Typography>
+      </Container>
+    </Box>
+  </>
 );
 
 NotFound.propTypes = {
