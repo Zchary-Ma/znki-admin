@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import PropTypes from 'prop-types';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import { Chip, Box } from '@material-ui/core';
@@ -11,6 +11,7 @@ import PublicIcon from '@material-ui/icons/Public';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import { dateDiff } from '../../shared/utils/format';
 import { Link } from 'react-router-dom';
+import { CreateDeckDto } from '../../shared/api/api';
 
 const useStyles = makeStyles({
   root: {
@@ -40,7 +41,8 @@ const useStyles = makeStyles({
   },
 });
 
-const DeckCard: FC = ({
+// TODO solution for implementation of FC prop from DTO and additional properties
+const DeckCard: FC<{ [key: string]: any } & CreateDeckDto> = ({
   id = 0,
   version = 0,
   pid = -1,
@@ -94,40 +96,24 @@ const DeckCard: FC = ({
           />
         </Box>
         <Button
-          color="primary"
-          size="small"
-          component={Link}
-          to={{
-            pathname: '/card',
-            state: {
-              deckInfo: {
-                id,
-                name,
-              },
-            },
-          }}
+        // color="primary"
+        // size="small"
+        // component={Link}
+        // to={{
+        //   pathname: '/card',
+        //   state: {
+        //     deckInfo: {
+        //       id,
+        //       name,
+        //     },
+        //   },
+        // }}
         >
           view
         </Button>
       </CardActions>
     </Card>
   );
-};
-
-DeckCard.propTypes = {
-  id: PropTypes.number,
-  version: PropTypes.number,
-  pid: PropTypes.number,
-  conf: PropTypes.string,
-  createAt: PropTypes.string,
-  updateAt: PropTypes.string,
-  isPublic: PropTypes.bool,
-  name: PropTypes.string,
-  description: PropTypes.string,
-};
-
-DeckCard.defaultProps = {
-  // bla: 'test',
 };
 
 export default DeckCard;

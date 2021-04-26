@@ -88,7 +88,7 @@ export class TagService {
   /**
    *
    */
-  static tag(
+  static tagControllerAddTag(
     params: {
       /** requestBody */
       body?: CreateTagDto;
@@ -109,7 +109,7 @@ export class TagService {
   /**
    *
    */
-  static tag1(options: IRequestOptions = {}): Promise<any> {
+  static tagControllerRemoveTags(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/tag';
 
@@ -127,7 +127,7 @@ export class CardService {
   /**
    * get all cards
    */
-  static card(
+  static cardControllerGetCards(
     params: {
       /** requestBody */
       body?: CardListDto;
@@ -148,7 +148,7 @@ export class CardService {
   /**
    *
    */
-  static card1(options: IRequestOptions = {}): Promise<any> {
+  static cardControllerUpdateCard(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/card';
 
@@ -163,7 +163,7 @@ export class CardService {
   /**
    * get card info by card id
    */
-  static card2(
+  static cardControllerGetCardDetailById(
     params: {
       /**  */
       cardId: number;
@@ -185,7 +185,7 @@ export class CardService {
   /**
    *
    */
-  static add(
+  static cardControllerAddCard(
     params: {
       /** requestBody */
       body?: CreateCardDto;
@@ -209,7 +209,7 @@ export class DeckService {
   /**
    *
    */
-  static deck(
+  static deckControllerAddDeck(
     params: {
       /** requestBody */
       body?: CreateDeckDto;
@@ -230,7 +230,7 @@ export class DeckService {
   /**
    *
    */
-  static deck1(
+  static deckControllerGetDecks(
     params: {
       /**  */
       take: number;
@@ -256,7 +256,7 @@ export class NoteService {
   /**
    *
    */
-  static note(
+  static noteControllerAddNote(
     params: {
       /** requestBody */
       body?: CreateNoteDto;
@@ -280,7 +280,7 @@ export class AuthService {
   /**
    *
    */
-  static token(options: IRequestOptions = {}): Promise<any> {
+  static authControllerVerifyToken(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/token';
 
@@ -295,7 +295,7 @@ export class AuthService {
   /**
    *
    */
-  static login(
+  static authControllerLogin(
     params: {
       /** requestBody */
       body?: LoginDto;
@@ -316,7 +316,7 @@ export class AuthService {
   /**
    *
    */
-  static register(
+  static authControllerRegister(
     params: {
       /** requestBody */
       body?: RegisterUserDto;
@@ -337,7 +337,7 @@ export class AuthService {
   /**
    *
    */
-  static logout(options: IRequestOptions = {}): Promise<any> {
+  static authControllerLogout(options: IRequestOptions = {}): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/logout';
 

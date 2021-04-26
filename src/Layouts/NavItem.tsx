@@ -4,7 +4,7 @@ import {
   matchPath,
   useLocation,
 } from 'react-router-dom';
-import PropTypes from 'prop-types';
+
 import { Button, ListItem } from '@material-ui/core';
 
 interface INavItem {

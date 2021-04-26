@@ -1,0 +1,309 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Znki API",
+    "description": "znki apis",
+    "version": "0.1",
+    "contact": {
+      "name": "ZcharyMa",
+      "url": "https://www.github.com/zchary-ma",
+      "email": "zcharyma@gmail.com"
+    }
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "Authorization": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateTagDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "tag name" },
+          "type": { "type": "number", "description": "tag type", "default": 0 }
+        },
+        "required": ["name", "type"]
+      },
+      "CardWhereDto": {
+        "type": "object",
+        "properties": {
+          "deckId": { "type": "number" },
+          "templateId": { "type": "number" },
+          "title": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["NEW", "LEARNING", "REVIEW", "RELEARNING"]
+          }
+        },
+        "required": ["deckId"]
+      },
+      "CardListDto": {
+        "type": "object",
+        "properties": {
+          "take": { "type": "number" },
+          "skip": { "type": "number" },
+          "where": { "$ref": "#/components/schemas/CardWhereDto" }
+        },
+        "required": ["take", "skip"]
+      },
+      "CreateNoteDto": {
+        "type": "object",
+        "properties": {
+          "templateId": { "type": "number", "description": "template id" },
+          "content": { "type": "string", "description": "note content" },
+          "type": {
+            "type": "string",
+            "enum": ["TEXT", "IMAGE"],
+            "description": "note type"
+          }
+        },
+        "required": ["content", "type"]
+      },
+      "CreateCardDto": {
+        "type": "object",
+        "properties": {
+          "deckId": { "type": "number", "description": "deck id" },
+          "templateId": { "type": "number", "description": "card template id" },
+          "title": { "type": "string", "description": "question of this card" },
+          "notes": {
+            "description": "note list",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/CreateNoteDto" }
+          }
+        },
+        "required": ["deckId", "title", "notes"]
+      },
+      "DeckConfDto": { "type": "object", "properties": {} },
+      "CreateDeckDto": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "deck name" },
+          "description": {
+            "type": "string",
+            "description": "deck description"
+          },
+          "conf": { "$ref": "#/components/schemas/DeckConfDto" },
+          "isPublic": {
+            "type": "boolean",
+            "description": "is it shared to public"
+          }
+        },
+        "required": ["name"]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "pwd": { "type": "string", "description": "password" },
+          "email": { "type": "string", "description": "email" }
+        },
+        "required": ["pwd", "email"]
+      },
+      "RegisterUserDto": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "email": { "type": "string" },
+          "pwd": { "type": "string" }
+        },
+        "required": ["username", "email", "pwd"]
+      }
+    }
+  },
+  "paths": {
+    "/api/tag": {
+      "post": {
+        "operationId": "TagController_addTag",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateTagDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Tag"]
+      },
+      "delete": {
+        "operationId": "TagController_removeTags",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Tag"]
+      }
+    },
+    "/api/card": {
+      "post": {
+        "operationId": "CardController_getCards",
+        "summary": "get all cards",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CardListDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Card"]
+      },
+      "put": {
+        "operationId": "CardController_updateCard",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Card"]
+      }
+    },
+    "/api/card/{card_id}": {
+      "get": {
+        "operationId": "CardController_getCardDetailById",
+        "summary": "get card info by card id",
+        "description": "version 0.1",
+        "parameters": [
+          {
+            "name": "card_id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Card"]
+      }
+    },
+    "/api/card/add": {
+      "post": {
+        "operationId": "CardController_addCard",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateCardDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Card"]
+      }
+    },
+    "/api/deck": {
+      "post": {
+        "operationId": "DeckController_addDeck",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateDeckDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Deck"]
+      },
+      "get": {
+        "operationId": "DeckController_getDecks",
+        "parameters": [
+          {
+            "name": "take",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          },
+          {
+            "name": "skip",
+            "required": true,
+            "in": "query",
+            "schema": { "type": "number" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Deck"]
+      }
+    },
+    "/api/note": {
+      "post": {
+        "operationId": "NoteController_addNote",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateNoteDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Note"]
+      }
+    },
+    "/api/token": {
+      "get": {
+        "operationId": "AuthController_verifyToken",
+        "parameters": [],
+        "responses": { "200": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "",
+        "description": "user login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginDto" }
+              }
+            }
+          }
+        },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/RegisterUserDto" }
+            }
+          }
+        },
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    },
+    "/api/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "summary": "",
+        "description": "user logout",
+        "parameters": [],
+        "responses": { "201": { "description": "" } },
+        "tags": ["Auth"]
+      }
+    }
+  }
+}
