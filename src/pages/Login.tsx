@@ -45,24 +45,28 @@ const Login: FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: LoginDto) => {
-    AuthService.authControllerLogin({ body: data }).then((res) => {
-      if (res?.data?.statusCode === 200) {
-        // TODO auth state
-        // navigate('/');
-      } else {
-        if (res?.data?.statusCode === 400) {
-          // TODO toast it
-          // submitted message format error
-          console.log(res?.data?.message);
-        } else if (res?.data?.statusCode === 403) {
+    AuthService.authControllerLogin({ body: data })
+      .then((res) => {
+        if (res?.data?.statusCode === 200) {
+          // TODO auth state
+          // TODO user info store
+          // TODO avatar image store
+          navigate('/app/dashboard');
+        }
+      })
+      .catch((err) => {
+        if (err?.data?.statusCode === 403) {
           // TODO toast it
           // password not correct
-          console.log(res?.data?.message);
+          console.log(err?.data?.message);
+        } else if (err?.data?.statusCode === 400) {
+          // TODO toast it
+          // submitted message format error
+          console.log(err?.data?.message);
         } else {
-          console.warn(res);
+          console.warn(err);
         }
-      }
-    });
+      });
   };
 
   return (

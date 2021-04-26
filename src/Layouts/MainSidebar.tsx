@@ -31,22 +31,22 @@ const user = {
 
 const items = [
   {
-    href: '/dashboard',
+    href: '/app/dashboard',
     icon: BarChartIcon,
     title: 'Dashboard',
   },
   {
-    href: '/deck',
+    href: '/app/deck',
     icon: BookIcon,
     title: 'Deck',
   },
   {
-    href: '/about',
+    href: '/app/about',
     icon: HelpCircleIcon,
     title: 'About',
   },
   {
-    href: '/404',
+    href: '/app/404',
     icon: AlertCircleIcon,
     title: 'Error',
   },

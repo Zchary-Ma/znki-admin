@@ -9,7 +9,7 @@ import NotFound from './pages/NotFound';
 const routes = (isLoggedIn: boolean): { [key: string]: unknown }[] => [
   {
     path: '/app',
-    element: isLoggedIn ? <Dashboard /> : <Navigate to="/login" />,
+    element: isLoggedIn ? <MainLayout /> : <Navigate to="/login" />,
     children: [
       { path: 'deck', element: <DeckPage /> },
       { path: '404', element: <NotFound /> },
@@ -20,10 +20,10 @@ const routes = (isLoggedIn: boolean): { [key: string]: unknown }[] => [
   },
   {
     path: '/',
-    element: !isLoggedIn ? <MainLayout /> : <Navigate to="/app/dashboard" />,
+    element: !isLoggedIn ? <Login /> : <Navigate to="/app/dashboard" />,
     children: [
       { path: 'login', element: <Login /> },
-      { path: '/', element: <Navigate to="/login" /> },
+      { path: '*', element: <Navigate to="/login" /> },
     ],
   },
 ];
