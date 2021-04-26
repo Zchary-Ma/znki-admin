@@ -13,7 +13,10 @@
   },
   "rules": {
     "prettier/prettier": ["error", { "singleQuote": true }],
-    "@typescript-eslint/no-empty-interface": "warn"
+    "@typescript-eslint/no-empty-interface": "warn",
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": ["warn"],
+    "react/prop-types": 0
   },
   "settings": {
     "react": {

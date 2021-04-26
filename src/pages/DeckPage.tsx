@@ -1,7 +1,17 @@
 import React, { FC } from 'react';
-
+import { Box, Typography } from '@material-ui/core';
 const DeckPage: FC = (props) => (
-  <div className="DeckPageWrapper">Test content</div>
+  <Box
+    sx={{
+      backgroundColor: 'background.default',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      justifyContent: 'center',
+    }}
+  >
+    DeckPage
+  </Box>
 );
 
 DeckPage.propTypes = {
