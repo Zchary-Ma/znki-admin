@@ -26,9 +26,7 @@ const DeckPage: FC = (props) => {
         justifyContent: 'center',
       }}
     >
-      <Grid
-      // container direction="row" justify="center" spacing={1}
-      >
+      <Grid>
         {state.deckItems &&
           state.deckItems.map((item, index) => (
             <Grid item key={index}>

@@ -301,7 +301,7 @@ export class AuthService {
       body?: LoginDto;
     } = {} as any,
     options: IRequestOptions = {}
-  ): Promise<LoginDto> {
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/login';
 

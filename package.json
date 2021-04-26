@@ -20,6 +20,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
+    "react-hook-form": "^7.3.4",
     "react-redux": "^7.2.4",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
@@ -33,7 +34,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:api": "ts-node ./src/shared/api/swagger.ts",
+    "build:api": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node ./src/shared/api/swagger.ts",
     "lint:fix": "eslint './src/**/*.{ts,tsx}'",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

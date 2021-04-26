@@ -266,16 +266,7 @@
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/LoginDto" }
-              }
-            }
-          }
-        },
+        "responses": { "201": { "description": "" } },
         "tags": ["Auth"]
       }
     },

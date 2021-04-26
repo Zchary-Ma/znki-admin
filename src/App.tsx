@@ -6,7 +6,10 @@ import theme from './styles/themes';
 import routes from './routes';
 
 function App(): JSX.Element {
-  const routing = useRoutes(routes);
+  // TODO
+  // const { isLoggedIn } = useSelector((state) => state.auth);
+  const isLoggedIn = true;
+  const routing = useRoutes(routes(isLoggedIn));
 
   return (
     <ThemeProvider theme={theme}>
