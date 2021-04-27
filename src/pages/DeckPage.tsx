@@ -10,8 +10,8 @@ const DeckPage: FC = (props) => {
   });
   useEffect(() => {
     DeckService.deckControllerGetDecks({ take: 20, skip: 0 }).then((res) => {
-      if (res?.data?.message === 'success') {
-        setState({ deckItems: res.data.data });
+      if (res?.message === 'success') {
+        setState({ deckItems: res.data });
       }
     });
   }, []);
@@ -19,21 +19,13 @@ const DeckPage: FC = (props) => {
   return (
     <Box
       sx={{
-        backgroundColor: 'background.default',
-        display: 'flex',
-        flexDirection: 'column',
         height: '100%',
-        justifyContent: 'center',
       }}
     >
-      <Grid>
-        {state.deckItems &&
-          state.deckItems.map((item, index) => (
-            <Grid item key={index}>
-              <DeckCard {...item}></DeckCard>
-            </Grid>
-          ))}
-      </Grid>
+      {state.deckItems &&
+        state.deckItems.map((item, index) => (
+          <DeckCard key={index} {...item}></DeckCard>
+        ))}
     </Box>
   );
 };

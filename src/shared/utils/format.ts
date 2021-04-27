@@ -5,6 +5,6 @@ export const dateDiff = (
   previousDate: string | Date,
   flag: 'day' | 'hour',
 ): number => {
-  const d1 = dayjs(currentDate);
-  return d1.diff(previousDate, flag);
+  const d1 = dayjs(previousDate);
+  return d1.diff(currentDate, flag);
 };

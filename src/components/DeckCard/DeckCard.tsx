@@ -4,20 +4,23 @@ import Card from '@material-ui/core/Card';
 import { Chip, Box } from '@material-ui/core';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PublicIcon from '@material-ui/icons/Public';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import { dateDiff } from '../../shared/utils/format';
 import { Link } from 'react-router-dom';
 import { CreateDeckDto } from '../../shared/api/api';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const useStyles = makeStyles({
   root: {
+    display: 'inline-block',
     paddingLeft: '.75rem',
-    width: '90%',
+    width: '300px',
     boxShadow: '9px 6px 13px 0px  rgba(34, 35, 58, 0.2)',
     borderRadius: 12,
+    height: '200px',
   },
   overline: {
     fontSize: '.75rem',
@@ -25,7 +28,9 @@ const useStyles = makeStyles({
   title: {
     padding: '0.5rem 0 0.3rem',
   },
-  description: {},
+  description: {
+    flexGrow: 1,
+  },
   actions: {
     paddingBottom: '1rem',
     justifyContent: 'space-between',
@@ -94,22 +99,17 @@ const DeckCard: FC<{ [key: string]: any } & CreateDeckDto> = ({
             icon={<AssignmentTurnedInIcon />}
           />
         </Box>
-        <Button
-        // color="primary"
-        // size="small"
-        // component={Link}
-        // to={{
-        //   pathname: '/card',
-        //   state: {
-        //     deckInfo: {
-        //       id,
-        //       name,
-        //     },
-        //   },
-        // }}
-        >
-          view
-        </Button>
+        {/* <BottomNavigation value={value} onChange={this.handleChange}> */}
+        <BottomNavigation>
+          <BottomNavigationAction
+            component={Link}
+            to="/card"
+            label="view"
+            // value=""
+            // icon={<ShowChart />}
+            // className={classes.content}
+          />
+        </BottomNavigation>
       </CardActions>
     </Card>
   );
