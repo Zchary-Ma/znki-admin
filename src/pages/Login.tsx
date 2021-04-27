@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { useForm } from 'react-hook-form';
+import { AuthService, LoginDto } from '../shared/api/api';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -26,38 +29,73 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor: theme.palette.grey[50],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  // console.dir(theme);
+  return {
+    root: {
+      height: '100vh',
+    },
+    image: {
+      backgroundImage: 'url(https://source.unsplash.com/random)',
+      backgroundRepeat: 'no-repeat',
+      backgroundColor: theme.palette.grey[50],
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+    },
+    paper: {
+      margin: theme.spacing(8, 4),
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      fontSize: '200px',
+    },
+    form: {
+      width: '100%',
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+  };
+});
 
-const Login = () => {
+const Login: FC = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: LoginDto) => {
+    AuthService.authControllerLogin({ body: data })
+      .then((res) => {
+        if (res?.statusCode === 200) {
+          navigate('/app/dashboard', { replace: true });
+          // TODO auth state
+          // TODO user info store
+          // TODO avatar image store
+        }
+      })
+      .catch((err) => {
+        if (err?.statusCode === 403) {
+          // TODO toast it
+          // password not correct
+          console.log(err?.message);
+        } else if (err?.statusCode === 400) {
+          // TODO toast it
+          // submitted message format error
+          console.log(err?.message);
+        } else {
+          console.warn(err);
+        }
+      });
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -71,7 +109,7 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -79,20 +117,20 @@ const Login = () => {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
               autoComplete="email"
               autoFocus
+              {...register('email', { required: true })}
             />
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              {...register('pwd', { required: true })}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
