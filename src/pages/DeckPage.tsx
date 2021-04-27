@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
-import { Container, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import DeckCard from '../components/DeckCard';
 import { DeckService } from '../shared/api/api';
 

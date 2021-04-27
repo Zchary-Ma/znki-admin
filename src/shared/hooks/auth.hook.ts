@@ -11,6 +11,6 @@ export const useAuth = (): boolean => {
     } else {
       setAuthorizedStatus(false);
     }
-  }, []);
+  }, [cookies]);
   return authorizedStatus;
 };

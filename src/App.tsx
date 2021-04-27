@@ -12,7 +12,7 @@ function App(): JSX.Element {
   // const { isLoggedIn } = useSelector((state) => state.auth);
   const auth = useAuth();
   const isLoggedIn = auth;
-  const routing = useRoutes(routes(isLoggedIn));
+  const routing = useRoutes(routes);
 
   return (
     <ThemeProvider theme={theme}>
