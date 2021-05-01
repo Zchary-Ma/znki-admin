@@ -14,6 +14,7 @@ import {
   BarChart as BarChartIcon,
   Book as BookIcon,
   HelpCircle as HelpCircleIcon,
+  Codesandbox as CodesandboxIcon,
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -44,6 +45,11 @@ const items = [
     href: '/app/about',
     icon: HelpCircleIcon,
     title: 'About',
+  },
+  {
+    href: '/app/demo',
+    icon: CodesandboxIcon,
+    title: 'Demo',
   },
   {
     href: '/app/404',

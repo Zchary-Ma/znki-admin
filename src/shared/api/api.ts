@@ -351,6 +351,40 @@ export class AuthService {
   }
 }
 
+export class CommonService {
+  /**
+   * dts file upload
+   */
+  static commonControllerUpload(
+    params: {
+      /**  */
+      file: any;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/common/upload';
+
+      const configs: IRequestConfig = getConfigs('post', 'multipart/form-data', url, options);
+
+      let data = null;
+      data = new FormData();
+      if (params['file']) {
+        if (Object.prototype.toString.call(params['file']) === '[object Array]') {
+          for (const item of params['file']) {
+            data.append('file', item as any);
+          }
+        } else {
+          data.append('file', params['file'] as any);
+        }
+      }
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
 export interface CreateTagDto {
   /** tag name */
   name: string;
