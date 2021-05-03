@@ -97,6 +97,7 @@ const DeckCard: FC<{ [key: string]: any } & CreateDeckDto> = ({
             to="/app/card"
             label="view"
             showLabel
+            state={{ deckId: id }}
           />
         </BottomNavigation>
       </CardActions>

@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box } from '@material-ui/core';
-import { Grid } from '@material-ui/core';
+import { Box, Grid, Container } from '@material-ui/core';
 import DeckCard from '../components/DeckCard';
 import { DeckService } from '../shared/api/api';
 
@@ -21,17 +20,19 @@ const DeckPage: FC = (props) => {
       sx={{
         backgroundColor: 'background.default',
         minHeight: '100%',
-        padding: 3,
+        padding: 2,
       }}
     >
-      <Grid container spacing={3}>
-        {state.deckItems &&
-          state.deckItems.map((item, index) => (
-            <Grid item key={index}>
-              <DeckCard {...item}></DeckCard>
-            </Grid>
-          ))}
-      </Grid>
+      <Container>
+        <Grid container spacing={3}>
+          {state.deckItems &&
+            state.deckItems.map((item, index) => (
+              <Grid item key={index}>
+                <DeckCard {...item}></DeckCard>
+              </Grid>
+            ))}
+        </Grid>
+      </Container>
     </Box>
   );
 };

@@ -6,6 +6,7 @@ import DeckPage from './pages/DeckPage';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import { DemoPage } from './pages/DemoPage';
+import CardPage from './pages/CardPage';
 
 // const routes = (isLoggedIn: boolean): { [key: string]: unknown }[] => [
 const routes = [
@@ -15,6 +16,7 @@ const routes = [
     element: <MainLayout />,
     children: [
       { path: 'deck', element: <DeckPage /> },
+      { path: 'card', element: <CardPage /> },
       { path: '404', element: <NotFound /> },
       { path: 'demo', element: <DemoPage /> },
       { path: 'dashboard', element: <Dashboard /> },
