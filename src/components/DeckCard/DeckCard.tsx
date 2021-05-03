@@ -15,15 +15,11 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 
 const useStyles = makeStyles({
   root: {
-    display: 'inline-block',
     paddingLeft: '.75rem',
     width: '300px',
+    height: '200px',
     boxShadow: '9px 6px 13px 0px  rgba(34, 35, 58, 0.2)',
     borderRadius: 12,
-    height: '200px',
-  },
-  overline: {
-    fontSize: '.75rem',
   },
   title: {
     padding: '0.5rem 0 0.3rem',
@@ -62,17 +58,13 @@ const DeckCard: FC<{ [key: string]: any } & CreateDeckDto> = ({
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography
-          className={classes.overline}
-          color="textSecondary"
-          gutterBottom
-        >
+        <Typography variant="overline" color="textSecondary" gutterBottom>
           {`Already in deck for ${dayCount} ${dayCount >= 2 ? 'days' : 'day'} `}
         </Typography>
         <Typography
           color="primary"
           className={classes.title}
-          variant="h5"
+          variant="h3"
           component="h2"
         >
           {name}
@@ -99,15 +91,12 @@ const DeckCard: FC<{ [key: string]: any } & CreateDeckDto> = ({
             icon={<AssignmentTurnedInIcon />}
           />
         </Box>
-        {/* <BottomNavigation value={value} onChange={this.handleChange}> */}
         <BottomNavigation>
           <BottomNavigationAction
             component={Link}
-            to="/card"
+            to="/app/card"
             label="view"
-            // value=""
-            // icon={<ShowChart />}
-            // className={classes.content}
+            showLabel
           />
         </BottomNavigation>
       </CardActions>
