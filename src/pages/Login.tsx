@@ -11,23 +11,13 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form';
 import { AuthService, LoginDto } from '../shared/api/api';
 import { useNavigate } from 'react-router-dom';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { SvgIcon, makeStyles, dividerClasses } from '@material-ui/core';
+import { ReactComponent as CompositionIcon } from '../assets/bg_composition.svg';
+import { ReactComponent as FilesystemIcon } from '../assets/bg_filesystem.svg';
+import { ReactComponent as WebDevIcon } from '../assets/bg_web_dev.svg';
 
 const useStyles = makeStyles((theme) => {
   // console.dir(theme);
@@ -35,12 +25,23 @@ const useStyles = makeStyles((theme) => {
     root: {
       height: '100vh',
     },
-    image: {
-      backgroundImage: 'url(https://source.unsplash.com/random)',
-      backgroundRepeat: 'no-repeat',
-      backgroundColor: theme.palette.grey[50],
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
+    backgroundImage: {
+      // backgroundImage: 'url(https://source.unsplash.com/random)',
+      // backgroundRepeat: 'no-repeat',
+      // backgroundColor: theme.palette.grey[50],
+      // backgroundSize: 'cover',
+      // backgroundPosition: 'center',
+      width: '100%',
+      height: '100%',
+      '& svg': {
+        width: '25%',
+        margin: '2rem',
+        transition: '.2s',
+      },
+      '& svg:hover': {
+        top: '-20%',
+        transform: 'scale(1.3, 1.3)',
+      },
     },
     paper: {
       margin: theme.spacing(8, 4),
@@ -61,6 +62,31 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
+
+const BackgroundImage = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.backgroundImage}>
+      <FilesystemIcon />
+      <WebDevIcon />
+      <CompositionIcon />
+    </div>
+  );
+};
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://material-ui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const Login: FC = () => {
   const classes = useStyles();
@@ -100,7 +126,9 @@ const Login: FC = () => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={false} sm={4} md={7}>
+        <BackgroundImage />
+      </Grid>
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
