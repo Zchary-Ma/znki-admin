@@ -1,21 +1,30 @@
 import React, { FC, useState, useEffect } from 'react';
-import { Box, Grid, Container, Typography } from '@material-ui/core';
+import {
+  Box,
+  Grid,
+  Container,
+  Typography,
+  TableSortLabel,
+  Toolbar,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
+import TablePagination from '@material-ui/core/TablePagination';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useLocation } from 'react-router-dom';
 import { CardService } from '../shared/api/api';
+import { format, parseISO } from 'date-fns';
 
 interface ICardRequest {
   deckId: number;
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
@@ -24,7 +33,35 @@ const useStyles = makeStyles({
     height: '200px',
     marginBottom: '1rem',
   },
-});
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
+  toolbar: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(1),
+    '& .highlight':
+      theme.palette.mode === 'light'
+        ? {
+            color: theme.palette.secondary.main,
+            backgroundColor: theme.palette.secondary.light,
+          }
+        : {
+            color: theme.palette.text.primary,
+            backgroundColor: theme.palette.secondary.dark,
+          },
+    '& .title': {
+      flex: '1 1 100%',
+    },
+  },
+}));
 
 const CardPage: FC<any> = (props) => {
   const {
@@ -63,7 +100,7 @@ const CardPage: FC<any> = (props) => {
         <section className={classes.placeholder}>
           Card Page | placeholder
         </section>
-        {deckId ? <BasicTable /> : <Typography>No DeckId provided</Typography>}
+        {deckId ? <CardTable /> : <Typography>No DeckId provided</Typography>}
       </Container>
     </Box>
   );
@@ -78,50 +115,187 @@ CardPage.defaultProps = {
 };
 
 export default CardPage;
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
-function BasicTable() {
+const CardTable = () => {
   const classes = useStyles();
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('title');
+  const [selected, setSelected] = useState([]);
+  const [title, setTitle] = useState('');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [cardsInfo, setCardsInfo] = useState({} as any);
+
+  useEffect(() => {
+    CardService.cardControllerGetCards({
+      body: {
+        take: 500, // TODO 前端ajax分页
+        skip: 0,
+      },
+    })
+      .then((res) => {
+        if (res.message === 'success') {
+          setCardsInfo(res?.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const CardTableToolbar = () => {
+    return (
+      <Toolbar className={classes.toolbar}>
+        <Typography
+          className="title"
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          DeckName
+        </Typography>
+      </Toolbar>
+    );
+  };
+
+  const CardTableHead = (props: any) => {
+    const {
+      classes,
+      onSelectAllClick,
+      order,
+      orderBy,
+      numSelected,
+      rowCount,
+      onRequestSort,
+    } = props;
+    const createSortHandler = (property: any) => (event: any) => {
+      onRequestSort(event, property);
+    };
+    const cells: { align: 'left' | 'right'; [key: string]: any }[] = [
+      {
+        id: 'title',
+        align: 'left',
+        numeric: false,
+        disablePadding: true,
+        label: 'Title',
+      },
+      {
+        id: 'status',
+        align: 'right',
+        numeric: false,
+        disablePadding: true,
+        label: 'Status',
+      },
+      {
+        id: 'due',
+        align: 'right',
+        numeric: false,
+        disablePadding: true,
+        label: 'Due',
+      },
+      {
+        id: 'reviews',
+        align: 'right',
+        numeric: false,
+        disablePadding: true,
+        label: 'Reviews',
+      },
+      {
+        id: 'createAt',
+        align: 'right',
+        numeric: false,
+        disablePadding: true,
+        label: 'Create At',
+      },
+      {
+        id: 'updateAt',
+        align: 'right',
+        numeric: false,
+        disablePadding: true,
+        label: 'Update At',
+      },
+    ];
+
+    return (
+      <TableHead>
+        <TableRow>
+          {cells.map((headCell) => (
+            <TableCell key={headCell.id} {...headCell}>
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                // direction={orderBy === headCell.id ? order : 'asc'}
+                // onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {/* {orderBy === headCell.id ? (
+                  <span className={classes.visuallyHidden}>
+                    {order === 'desc'
+                      ? 'sorted descending'
+                      : 'sorted ascending'}
+                  </span>
+                ) : null} */}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
+  };
+
+  const handleChangePage = (event: any, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handlerRowChange = (event: any) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const onChangeSearchTitle = (e: any) => {
+    const searchTitle = e.target.value;
+    setTitle(searchTitle);
+  };
 
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Paper>
+      <CardTableToolbar />
+      <TableContainer>
+        <Table className={classes.table} aria-label="simple table">
+          <CardTableHead />
+          <TableBody>
+            {!cardsInfo.data
+              ? []
+              : cardsInfo?.data
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((item) => (
+                    <TableRow key={item.title}>
+                      <TableCell component="th" scope="item">
+                        {item.title}
+                      </TableCell>
+                      <TableCell align="right">{item.status}</TableCell>
+                      <TableCell align="right">{item.due}</TableCell>
+                      <TableCell align="right">{item.reviews}</TableCell>
+                      <TableCell align="right">
+                        {format(parseISO(item.createAt), 'MM/dd/yyyy')}
+                      </TableCell>
+                      <TableCell align="right">
+                        {format(parseISO(item.updateAt), 'MM/dd/yyyy')}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handlerRowChange}
+        component="div"
+        page={page}
+        rowsPerPage={rowsPerPage}
+        showFirstButton
+        showLastButton
+        count={cardsInfo?.total || 0}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
+    </Paper>
   );
-}
+};
