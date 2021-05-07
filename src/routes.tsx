@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import NotFound from './pages/NotFound';
 import { DemoPage } from './pages/DemoPage';
 import CardPage from './pages/CardPage';
+import Account from './pages/Account';
 
 // const routes = (isLoggedIn: boolean): { [key: string]: unknown }[] => [
 const routes = [
@@ -18,6 +19,7 @@ const routes = [
       { path: 'deck', element: <DeckPage /> },
       { path: 'card', element: <CardPage /> },
       { path: '404', element: <NotFound /> },
+      { path: 'account', element: <Account /> },
       { path: 'demo', element: <DemoPage /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: '/', element: <Navigate to="/app/dashboard" /> },
