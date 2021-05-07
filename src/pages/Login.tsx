@@ -102,10 +102,9 @@ const Login: FC = () => {
     AuthService.authControllerLogin({ body: data })
       .then((res) => {
         if (res?.statusCode === 200) {
+          localStorage.setItem('user', JSON.stringify(res?.data?.user));
           navigate('/app/dashboard', { replace: true });
           // TODO auth state
-          // TODO user info store
-          // TODO avatar image store
         }
       })
       .catch((err) => {

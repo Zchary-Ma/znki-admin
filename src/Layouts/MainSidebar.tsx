@@ -23,13 +23,6 @@ interface ISidebar {
   openMobile: boolean;
 }
 
-// TODO load user info in localStorage
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-};
-
 const items = [
   {
     href: '/app/dashboard',
@@ -60,6 +53,7 @@ const items = [
 
 const MainSidebar: FC<ISidebar> = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -94,10 +88,10 @@ const MainSidebar: FC<ISidebar> = ({ onMobileClose, openMobile }) => {
           to="/app/account"
         />
         <Typography color="textPrimary" variant="h5">
-          {user.name}
+          {user.username}
         </Typography>
         <Typography color="textSecondary" variant="body2">
-          {user.jobTitle}
+          {user?.description || 'no description added'}
         </Typography>
       </Box>
       <Divider />
