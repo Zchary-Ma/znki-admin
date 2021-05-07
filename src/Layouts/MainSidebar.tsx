@@ -13,6 +13,7 @@ import {
   AlertCircle as AlertCircleIcon,
   BarChart as BarChartIcon,
   Book as BookIcon,
+  User as UserIcon,
   HelpCircle as HelpCircleIcon,
   Codesandbox as CodesandboxIcon,
 } from 'react-feather';
@@ -33,6 +34,11 @@ const items = [
     href: '/app/deck',
     icon: BookIcon,
     title: 'Deck',
+  },
+  {
+    href: '/app/account',
+    icon: UserIcon,
+    title: 'Account',
   },
   {
     href: '/app/about',
