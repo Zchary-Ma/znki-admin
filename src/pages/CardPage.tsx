@@ -6,6 +6,8 @@ import {
   Typography,
   TableSortLabel,
   Toolbar,
+  Divider,
+  Input,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -19,6 +21,12 @@ import Paper from '@material-ui/core/Paper';
 import { useLocation } from 'react-router-dom';
 import { CardService } from '../shared/api/api';
 import { format, parseISO } from 'date-fns';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import RefreshIcon from '@material-ui/icons/Refresh';
 
 interface ICardRequest {
   deckId: number;
@@ -47,19 +55,6 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
-    '& .highlight':
-      theme.palette.mode === 'light'
-        ? {
-            color: theme.palette.secondary.main,
-            backgroundColor: theme.palette.secondary.light,
-          }
-        : {
-            color: theme.palette.text.primary,
-            backgroundColor: theme.palette.secondary.dark,
-          },
-    '& .title': {
-      flex: '1 1 100%',
-    },
   },
 }));
 
@@ -145,14 +140,24 @@ const CardTable = () => {
   const CardTableToolbar = () => {
     return (
       <Toolbar className={classes.toolbar}>
-        <Typography
-          className="title"
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          DeckName
-        </Typography>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item>
+            <SearchIcon style={{ display: 'block' }} color="inherit" />
+          </Grid>
+          <Grid item xs>
+            <Input placeholder="search cards" />
+          </Grid>
+          <Grid item>
+            <Button variant="contained" color="primary">
+              Add Card
+            </Button>
+            <Tooltip title="Reload">
+              <IconButton>
+                <RefreshIcon color="inherit" />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       </Toolbar>
     );
   };
@@ -258,6 +263,7 @@ const CardTable = () => {
   return (
     <Paper>
       <CardTableToolbar />
+      <Divider />
       <TableContainer>
         <Table className={classes.table} aria-label="simple table">
           <CardTableHead />
