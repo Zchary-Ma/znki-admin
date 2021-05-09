@@ -31,7 +31,7 @@ const theme = createMuiTheme({
     MuiDrawer: {
       styleOverrides: {
         // override drawer with paper
-        paper: {
+        paperAnchorRight: {
           marginTop: '64px',
         },
       },
