@@ -27,6 +27,16 @@ const theme = createMuiTheme({
     },
   },
   typography,
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        // override drawer with paper
+        paper: {
+          marginTop: '64px',
+        },
+      },
+    },
+  },
 });
 
 export default theme;
