@@ -138,6 +138,9 @@ const CardTable = ({ deckId }) => {
       body: {
         take: 500, // TODO 前端ajax分页
         skip: 0,
+        where: {
+          deckId,
+        },
       },
     })
       .then((res) => {
@@ -148,7 +151,11 @@ const CardTable = ({ deckId }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+
+    return () => {
+      setCardsInfo({});
+    };
+  }, [deckId]);
 
   const handleClick = () => setWindowOpen(true);
   const toggleDrawer = (open) => (event) => {
@@ -204,42 +211,36 @@ const CardTable = ({ deckId }) => {
         id: 'title',
         align: 'left',
         numeric: false,
-        disablePadding: true,
         label: 'Title',
       },
       {
         id: 'status',
         align: 'right',
         numeric: false,
-        disablePadding: true,
         label: 'Status',
       },
       {
         id: 'due',
         align: 'right',
         numeric: false,
-        disablePadding: true,
         label: 'Due',
       },
       {
         id: 'reviews',
         align: 'right',
         numeric: false,
-        disablePadding: true,
         label: 'Reviews',
       },
       {
         id: 'createAt',
         align: 'right',
         numeric: false,
-        disablePadding: true,
         label: 'Create At',
       },
       {
         id: 'updateAt',
         align: 'right',
         numeric: false,
-        disablePadding: true,
         label: 'Update At',
       },
     ];

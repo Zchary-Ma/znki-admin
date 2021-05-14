@@ -145,7 +145,7 @@ export default function AddCardPage({
         })}
       </Grid>
       <Grid container justifyContent="center">
-        <ButtonGroup variant="text" color="primary" fullWidth>
+        <ButtonGroup variant="text" color="primary">
           <Button onClick={() => handleSubmit(inputValues)}>Create</Button>
           <Button onClick={handleClose}>Cancel</Button>
         </ButtonGroup>
