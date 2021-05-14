@@ -88,6 +88,21 @@ export class TagService {
   /**
    *
    */
+  static tagControllerGetTags(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/tag';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
   static tagControllerAddTag(
     params: {
       /** requestBody */
@@ -125,6 +140,27 @@ export class TagService {
 
 export class CardService {
   /**
+   * to update card info
+   */
+  static cardControllerUpdateCard(
+    params: {
+      /** requestBody */
+      body?: UpdateCardDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/card';
+
+      const configs: IRequestConfig = getConfigs('put', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
    * get all cards
    */
   static cardControllerGetCards(
@@ -146,15 +182,21 @@ export class CardService {
     });
   }
   /**
-   *
+   * delete cards
    */
-  static cardControllerUpdateCard(options: IRequestOptions = {}): Promise<any> {
+  static cardControllerDeleteCards(
+    params: {
+      /** requestBody */
+      body?: CommonIdSetDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/card';
 
-      const configs: IRequestConfig = getConfigs('put', 'application/json', url, options);
+      const configs: IRequestConfig = getConfigs('delete', 'application/json', url, options);
 
-      let data = null;
+      let data = params.body;
 
       configs.data = data;
       axios(configs, resolve, reject);
@@ -183,7 +225,7 @@ export class CardService {
     });
   }
   /**
-   *
+   * to add card
    */
   static cardControllerAddCard(
     params: {
@@ -194,6 +236,27 @@ export class CardService {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = basePath + '/api/card/add';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   * to review card
+   */
+  static cardControllerReviewCard(
+    params: {
+      /** requestBody */
+      body?: ReviewCardDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/card/review';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
 
@@ -267,6 +330,30 @@ export class NoteService {
       let url = basePath + '/api/note';
 
       const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
+export class UserService {
+  /**
+   * update user info
+   */
+  static userControllerUpdateUser(
+    params: {
+      /** requestBody */
+      body?: UpdateUserDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/user';
+
+      const configs: IRequestConfig = getConfigs('put', 'application/json', url, options);
 
       let data = params.body;
 
@@ -353,10 +440,12 @@ export class AuthService {
 
 export class CommonService {
   /**
-   * dts file upload
+   * upload file | returning obs url
    */
   static commonControllerUpload(
     params: {
+      /**  */
+      action: string;
       /**  */
       file: any;
     } = {} as any,
@@ -366,7 +455,7 @@ export class CommonService {
       let url = basePath + '/api/common/upload';
 
       const configs: IRequestConfig = getConfigs('post', 'multipart/form-data', url, options);
-
+      configs.params = { action: params['action'] };
       let data = null;
       data = new FormData();
       if (params['file']) {
@@ -385,12 +474,31 @@ export class CommonService {
   }
 }
 
-export interface CreateTagDto {
+export interface BaseTagDto {
   /** tag name */
   name: string;
 
-  /** tag type */
-  type: number;
+  /** tag parent id */
+  pid: number;
+}
+
+export interface CreateTagDto {
+  /** tag parent id */
+  cardId: number;
+
+  /** tag info */
+  tag: CombinedTagTypes;
+}
+
+export interface UpdateCardDto {
+  /** card id */
+  id: number;
+
+  /** card template id */
+  templateId?: number;
+
+  /** question of this card */
+  title?: string;
 }
 
 export interface CardWhereDto {
@@ -443,6 +551,19 @@ export interface CreateCardDto {
   notes: CreateNoteDto[];
 }
 
+export interface ReviewCardDto {
+  /** card id */
+  cardId: number;
+
+  /** review status */
+  status: EnumReviewCardDtoStatus;
+}
+
+export interface CommonIdSetDto {
+  /**  */
+  ids: number[];
+}
+
 export interface DeckConfDto {}
 
 export interface CreateDeckDto {
@@ -457,6 +578,17 @@ export interface CreateDeckDto {
 
   /** is it shared to public */
   isPublic?: boolean;
+}
+
+export interface UpdateUserDto {
+  /**  */
+  uid: string;
+
+  /**  */
+  username?: string;
+
+  /**  */
+  avatar?: string;
 }
 
 export interface LoginDto {
@@ -477,13 +609,18 @@ export interface RegisterUserDto {
   /**  */
   pwd: string;
 }
+export type CombinedTagTypes = BaseTagDto;
 export enum EnumCardWhereDtoStatus {
   'NEW' = 'NEW',
   'LEARNING' = 'LEARNING',
-  'REVIEW' = 'REVIEW',
-  'RELEARNING' = 'RELEARNING'
+  'ARCHIVED' = 'ARCHIVED'
 }
 export enum EnumCreateNoteDtoType {
   'TEXT' = 'TEXT',
   'IMAGE' = 'IMAGE'
+}
+export enum EnumReviewCardDtoStatus {
+  'UNKNOWN' = 'UNKNOWN',
+  'GOOD' = 'GOOD',
+  'CLEAR' = 'CLEAR'
 }

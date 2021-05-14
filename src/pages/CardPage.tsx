@@ -27,6 +27,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
+import AddCardPage from './AddCardPage';
 interface ICardRequest {
   deckId: number;
 }
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     marginTop: '64px',
-    '& .drawer-content': {
+    '& .container': {
       padding: '1rem',
       width: '480px',
       height: '100%',
@@ -102,7 +103,11 @@ const CardPage: FC<any> = (props) => {
         <section className={classes.placeholder}>
           Card Page | placeholder
         </section>
-        {deckId ? <CardTable /> : <Typography>No DeckId provided</Typography>}
+        {deckId ? (
+          <CardTable deckId={deckId} />
+        ) : (
+          <Typography>No DeckId provided</Typography>
+        )}
       </Container>
     </Box>
   );
@@ -117,7 +122,7 @@ CardPage.defaultProps = {
 };
 
 export default CardPage;
-const CardTable = () => {
+const CardTable = ({ deckId }) => {
   const classes = useStyles();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('title');
@@ -327,7 +332,9 @@ const CardTable = () => {
         onClose={toggleDrawer(false)}
         className={classes.drawer}
       >
-        <Paper className="drawer-content"></Paper>
+        <Paper className="container">
+          <AddCardPage deckId={deckId} closeDrawer={toggleDrawer(false)} />
+        </Paper>
       </Drawer>
     </Paper>
   );

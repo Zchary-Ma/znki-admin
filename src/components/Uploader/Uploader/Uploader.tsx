@@ -8,7 +8,11 @@ const Uploader = () => {
   const onFileUpload = (event: any) => {
     const target = event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
-    CommonService.commonControllerUpload({ file })
+    // TODO action type add
+    CommonService.commonControllerUpload({
+      file,
+      action: '',
+    })
       .then((res) => {
         if (res.message === 'success') {
           console.log('success');
