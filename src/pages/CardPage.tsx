@@ -7,6 +7,7 @@ import {
   TableSortLabel,
   Toolbar,
   Divider,
+  Drawer,
   Input,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,12 +23,10 @@ import { useLocation } from 'react-router-dom';
 import { CardService } from '../shared/api/api';
 import { format, parseISO } from 'date-fns';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import RefreshIcon from '@material-ui/icons/Refresh';
-
 interface ICardRequest {
   deckId: number;
 }
@@ -55,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
+  },
+  drawer: {
+    marginTop: '64px',
+    '& .drawer-content': {
+      padding: '1rem',
+      width: '480px',
+      height: '100%',
+    },
   },
 }));
 
@@ -116,6 +123,7 @@ const CardTable = () => {
   const [orderBy, setOrderBy] = useState('title');
   const [selected, setSelected] = useState([]);
   const [title, setTitle] = useState('');
+  const [windowOpen, setWindowOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [cardsInfo, setCardsInfo] = useState({} as any);
@@ -137,6 +145,17 @@ const CardTable = () => {
       });
   }, []);
 
+  const handleClick = () => setWindowOpen(true);
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setWindowOpen(open);
+  };
+
   const CardTableToolbar = () => {
     return (
       <Toolbar className={classes.toolbar}>
@@ -148,7 +167,7 @@ const CardTable = () => {
             <Input placeholder="search cards" />
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary">
+            <Button variant="contained" color="primary" onClick={handleClick}>
               Add Card
             </Button>
             <Tooltip title="Reload">
@@ -302,6 +321,14 @@ const CardTable = () => {
         count={cardsInfo?.total || 0}
         rowsPerPageOptions={[5, 10, 25]}
       />
+      <Drawer
+        anchor="right"
+        open={windowOpen}
+        onClose={toggleDrawer(false)}
+        className={classes.drawer}
+      >
+        <Paper className="drawer-content"></Paper>
+      </Drawer>
     </Paper>
   );
 };
