@@ -299,7 +299,11 @@ const CardTable = ({ deckId }) => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((item) => (
                     <TableRow key={item.title}>
-                      <TableCell component="th" scope="item">
+                      <TableCell
+                        component="th"
+                        scope="item"
+                        style={{ width: '500px' }}
+                      >
                         {item.title}
                       </TableCell>
                       <TableCell align="right">{item.status}</TableCell>

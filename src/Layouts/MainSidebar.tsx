@@ -16,6 +16,7 @@ import {
   User as UserIcon,
   HelpCircle as HelpCircleIcon,
   Codesandbox as CodesandboxIcon,
+  Play as PlayIcon,
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -29,6 +30,11 @@ const items = [
     href: '/app/dashboard',
     icon: BarChartIcon,
     title: 'Dashboard',
+  },
+  {
+    href: '/app/review',
+    icon: PlayIcon,
+    title: 'Review',
   },
   {
     href: '/app/deck',
