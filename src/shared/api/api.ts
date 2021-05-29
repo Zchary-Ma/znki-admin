@@ -246,6 +246,27 @@ export class CardService {
     });
   }
   /**
+   * retrieve cards to review
+   */
+  static cardControllerRetrieveReviewCards(
+    params: {
+      /** requestBody */
+      body?: RetrieveReviewCardDto;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/card/retrieve';
+
+      const configs: IRequestConfig = getConfigs('post', 'application/json', url, options);
+
+      let data = params.body;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
    * to review card
    */
   static cardControllerReviewCard(
@@ -474,6 +495,47 @@ export class CommonService {
   }
 }
 
+export class NotionService {
+  /**
+   *
+   */
+  static notionControllerGetEntityInfo(
+    params: {
+      /**  */
+      id: string;
+      /**  */
+      type: string;
+    } = {} as any,
+    options: IRequestOptions = {}
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/notion';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+      configs.params = { id: params['id'], type: params['type'] };
+      let data = null;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+  /**
+   *
+   */
+  static notionControllerGetDatabaseInfo(options: IRequestOptions = {}): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = basePath + '/api/notion/database';
+
+      const configs: IRequestConfig = getConfigs('get', 'application/json', url, options);
+
+      let data = null;
+
+      configs.data = data;
+      axios(configs, resolve, reject);
+    });
+  }
+}
+
 export interface BaseTagDto {
   /** tag name */
   name: string;
@@ -549,6 +611,14 @@ export interface CreateCardDto {
 
   /** note list */
   notes: CreateNoteDto[];
+}
+
+export interface RetrieveReviewCardDto {
+  /** deck id */
+  deckId: number;
+
+  /** default length:20 */
+  length: number;
 }
 
 export interface ReviewCardDto {

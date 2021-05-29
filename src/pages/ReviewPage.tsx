@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { Box, Container, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import ReviewCardList from '../components/ReviewCard';
 
 const Review: FC = (props) => (
   <>
@@ -10,14 +11,13 @@ const Review: FC = (props) => (
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
+        alignItems: 'center',
         justifyContent: 'center',
+        minHeight: '100%',
+        padding: 2,
       }}
     >
-      <Container maxWidth="md">
-        <Typography align="center" color="textPrimary" variant="h1">
-          Todo Account page
-        </Typography>
-      </Container>
+      <ReviewCardList />
     </Box>
   </>
 );
