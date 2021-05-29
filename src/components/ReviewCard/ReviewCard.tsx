@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       borderRadius: 12,
-      minWidth: 300,
-      height: 440,
+      width: 400,
+      height: 540,
       textAlign: 'center',
       position: 'absolute',
       display: 'flex',
