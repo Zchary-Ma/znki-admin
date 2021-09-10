@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Box } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
-import Counter from '../components/Counter';
 import PersonIcon from '@material-ui/icons/Person';
 
 const useStyles = makeStyles((theme: Theme) =>
